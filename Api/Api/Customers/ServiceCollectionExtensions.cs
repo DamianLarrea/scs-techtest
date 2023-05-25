@@ -8,6 +8,7 @@ namespace Api.Customers
         public static IServiceCollection AddCustomerControllerDependencies(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddSingleton<ICustomerRepository, CustomerRepository>();
+            serviceCollection.AddTransient<ICustomerService, CustomerService>();
 
             return serviceCollection;
         }

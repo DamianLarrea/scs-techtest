@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Application.Customers;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Customers
 {
@@ -6,13 +7,41 @@ namespace Api.Customers
     [ApiController]
     public class CustomerController : ControllerBase
     {
+        private readonly ICustomerService customerService;
+
+        public CustomerController(ICustomerService customerService)
+        {
+            this.customerService = customerService;
+        }
+
         [HttpGet]
-        public IEnumerable<CustomerDto> Get() => new List<CustomerDto>();
+        public IEnumerable<CustomerDto> Get()
+        {
+            return customerService.GetAll().Select(Map);
+        }
 
         [HttpGet("{id}")]
-        public CustomerDto Get(Guid id) => new CustomerDto();
+        public IActionResult Get(Guid id)
+        {
+            var customer = customerService.GetById(id);
+
+            return customer is null ? NotFound() : new JsonResult(Map(customer));
+        }
 
         [HttpPost]
-        public void Post([FromBody] CustomerDto dto) { }
+        public void Post([FromBody] CustomerDto dto)
+        {
+            customerService.AddCustomer(dto.FirstName, dto.LastName, dto.Email, dto.Mobile, dto.Address);
+        }
+
+        private CustomerDto Map(Customer customer) => new()
+        {
+            Id = customer.Id,
+            Address = customer.Address,
+            Email = customer.Email,
+            FirstName = customer.FirstName,
+            LastName = customer.LastName,
+            Mobile = customer.Mobile
+        };
     }
 }
