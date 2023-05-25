@@ -1,4 +1,5 @@
 using Api.Customers;
+using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +9,7 @@ const string allowedOriginsPolicy = "allowedOriginsPolicy";
 var allowedOrigins = builder.Configuration["AllowedOrigins"]?.Split(',') ?? Array.Empty<string>();
 
 builder.Services.AddCors(opts => {
-    opts.AddPolicy(allowedOriginsPolicy, policy => policy.WithOrigins(allowedOrigins));
+    opts.AddPolicy(allowedOriginsPolicy, policy => policy.WithOrigins(allowedOrigins).WithHeaders(HeaderNames.ContentType));
 });
 
 builder.Services.AddControllers();
