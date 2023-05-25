@@ -1,0 +1,29 @@
+<div class="container text-center">
+  <h2 class="pad-bottom">New customer</h2>
+  <form #customerForm="ngForm" (ngSubmit)="addCustomer()">
+      <div class="form-group row justify-content-center">
+        <label class="col-2 col-form-label" for="firstName">First name</label>
+        <input class="col-3 form-control" id="firstName" name="firstName" type="text" [(ngModel)]="newCustomer.firstName" required>
+      </div>
+      <div class="form-group row justify-content-center">
+        <label class="col-2 col-form-label" for="lastName">Last name</label>
+        <input class="col-3 form-control" id="lastName" name="lastName" type="text" [(ngModel)]="newCustomer.lastName" required>
+      </div>
+      <div class="form-group row justify-content-center">
+        <label class="col-2 col-form-label" for="email">Email</label>
+        <input class="col-3 form-control" id="email" name="email" type="text" [(ngModel)]="newCustomer.email" required>
+      </div>
+      <div class="form-group row justify-content-center">
+        <label class="col-2 col-form-label" for="mobile">Mobile</label>
+        <input class="col-3 form-control" id="mobile" name="mobile" type="text" [(ngModel)]="newCustomer.mobile" required>
+      </div>
+      <div class="form-group row justify-content-center">
+        <label class="col-2 col-form-label" for="address">Address</label>
+        <input class="col-3 form-control" id="address" name="address" type="text" [(ngModel)]="newCustomer.address" required>
+      </div>
+      <div class="pad-top-1">
+        <button class="btn btn-danger" routerLink="/customers" type="submit" id="cancel">Cancel</button>
+        <button class="btn" [ngClass]="{'btn-success': customerForm.form.valid}" [disabled]="!customerForm.form.valid" type="submit" id="submit">Add</button>
+      </div>
+    </form>
+</div>
