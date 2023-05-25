@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Customer } from '../Customer';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { CustomerService } from '../customer.service';
 
 @Component({
   selector: 'app-customer-detail',
@@ -12,12 +13,12 @@ export class CustomerDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private httpClient: HttpClient
+    private customerService: CustomerService
   ) { }
 
   ngOnInit(): void {
     var customerId = this.route.snapshot.params['id'];
-    this.httpClient.get<Customer>(`https://localhost:44351/api/customer/${customerId}`)
+    this.customerService.getCustomer(customerId)
       .subscribe(response => this.customer = response);
   }
 
@@ -29,5 +30,4 @@ export class CustomerDetailComponent implements OnInit {
     mobile: '',
     address: ''
   };
-
 }

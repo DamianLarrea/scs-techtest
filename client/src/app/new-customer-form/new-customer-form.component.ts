@@ -1,7 +1,8 @@
-import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { NewCustomer } from '../NewCustomer';
+import { CustomerService } from '../customer.service';
 
 @Component({
   selector: 'app-new-customer-form',
@@ -12,7 +13,7 @@ export class NewCustomerFormComponent {
 
   constructor(
     private router: Router,
-    private httpClient: HttpClient
+    private customerService: CustomerService
   ) { }
   
   newCustomer: NewCustomer = {
@@ -24,21 +25,9 @@ export class NewCustomerFormComponent {
   };
 
   addCustomer() {
-    this.httpClient
-      .post(
-        'https://localhost:44351/api/customer/',
-        JSON.stringify(this.newCustomer),
-        { headers: { 'Content-Type': 'application/json'} }
-      )
-      .subscribe(_ => this.router.navigateByUrl('/customers'));
+    this.customerService
+      .createCustomer(this.newCustomer)
+      .subscribe(_ => this.router.navigateByUrl('/customers'))
   }
 
-}
-
-export type NewCustomer = {
-  firstName: string | null;
-  lastName: string | null;
-  email: string | null;
-  mobile: string | null;
-  address: string | null;
 }

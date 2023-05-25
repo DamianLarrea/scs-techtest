@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { Customer } from '../Customer';
+import { CustomerService } from '../customer.service';
 
 @Component({
   selector: 'app-customer-list',
@@ -10,11 +11,11 @@ import { Customer } from '../Customer';
 })
 export class CustomerListComponent implements OnInit {
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private customerService: CustomerService) {}
 
   customers: Observable<Customer[]> | null = null;
 
   ngOnInit(): void {
-    this.customers = this.httpClient.get<Customer[]>('https://localhost:44351/api/customer/');
+    this.customers = this.customerService.getAll();
   }
 }
